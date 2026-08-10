@@ -536,20 +536,14 @@
     background: radial-gradient(circle at 40% 35%, var(--gold-light), var(--gold-dim) 70%);
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
-    animation: spin 3.5s linear infinite;
-    animation-play-state: running;
   }
-  .music-toggle.paused .disc{ animation-play-state: paused; }
-  .music-toggle .disc::after{
-    content:'';
-    width:6px; height:6px;
-    border-radius:50%;
-    background: #0a0806;
+  .music-toggle .disc svg{
+    width:11px; height:11px;
   }
-  @keyframes spin{
-    from{ transform: rotate(0deg); }
-    to{ transform: rotate(360deg); }
-  }
+  .music-toggle .icon-pause{ display:flex; }
+  .music-toggle .icon-play{ display:none; }
+  .music-toggle.paused .icon-pause{ display:none; }
+  .music-toggle.paused .icon-play{ display:flex; }
 
   @media (max-width:380px){
     .big-name{ font-size:3.2rem; }
@@ -564,7 +558,10 @@
 <audio id="bgMusic" src="musica.mp3" loop preload="auto"></audio>
 
 <div class="music-toggle" id="musicToggle" onclick="toggleMusic()">
-  <div class="disc"></div>
+  <div class="disc">
+    <svg class="icon-pause" viewBox="0 0 24 24" fill="#0a0806"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+    <svg class="icon-play" viewBox="0 0 24 24" fill="#0a0806"><path d="M7 5l12 7-12 7V5z"/></svg>
+  </div>
   <span id="musicLabel">TOCANDO</span>
 </div>
 
