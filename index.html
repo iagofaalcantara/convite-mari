@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mari — 20 Anos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black: #060504;
+    --black-2: #0d0b09;
+    --gold: #cda45e;
+    --gold-light: #f0dba6;
+    --gold-dim: #8a6d3a;
+    --cream: #f3ead2;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    height:100%;
+    background: var(--black);
+    color: var(--cream);
+    font-family:'Cormorant Garamond', serif;
+    overflow-x:hidden;
+  }
+  .stage{
+    position:relative;
+    min-height:100vh;
+    width:100%;
+    max-width:520px;
+    margin:0 auto;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 0%, #1a140a 0%, var(--black) 55%),
+      var(--black);
+  }
+
+  /* ---------- twinkling gold dust ---------- */
+  .dust{
+    position:absolute; inset:0; pointer-events:none; z-index:1;
+  }
+  .dust span{
+    position:absolute;
+    width:2px; height:2px;
+    background: var(--gold-light);
+    border-radius:50%;
+    opacity:.6;
+    animation: twinkle 3.5s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:.15; transform:scale(1);}
+    50%{opacity:.9; transform:scale(1.8);}
+  }
+
+  /* ---------- envelope scene ---------- */
+  #envelope-screen{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px 24px;
+    text-align:center;
+    z-index:2;
+    transition: opacity .8s ease, visibility .8s ease;
+  }
+  #envelope-screen.hidden{
+    opacity:0;
+    visibility:hidden;
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+  }
+  .crest{
+    width:84px; height:84px;
+    border-radius:50%;
+    border:1px solid var(--gold-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel', serif;
+    font-size:26px;
+    letter-spacing:2px;
+    color: var(--gold-light);
+    background: radial-gradient(circle at 35% 30%, #1c1610, #060504 75%);
+    box-shadow: 0 0 18px rgba(205,164,94,.25), inset 0 0 12px rgba(205,164,94,.15);
+    margin-bottom:22px;
+  }
+  .name-script{
+    font-family:'Alex Brush', cursive;
+    font-size: 3.1rem;
+    color: var(--gold-light);
+    line-height:1;
+    text-shadow: 0 0 18px rgba(240,219,166,.25);
+  }
+  .subtitle-caps{
+    font-family:'Cinzel', serif;
+    font-size:.95rem;
+    letter-spacing:5px;
+    color: var(--gold);
+    margin-top:10px;
+  }
+
+  .envelope-wrap{
+    margin-top:34px;
+    width:260px;
+    max-width:70vw;
+    cursor:pointer;
+    position:relative;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .envelope{
+    position:relative;
+    width:100%;
+    aspect-ratio: 260/180;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,.55));
+  }
+  .env-body{
+    position:absolute; inset:0;
+    background: linear-gradient(160deg, #2a2115, #171106 70%);
+    border:1px solid var(--gold-dim);
+    border-radius:4px;
+  }
+  .env-flap{
+    position:absolute;
+    top:0; left:0; right:0;
+    height:100%;
+    clip-path: polygon(0 0, 100% 0, 50% 62%);
+    background: linear-gradient(160deg, #322817, #1a1409 80%);
+    border-bottom:1px solid rgba(205,164,94,.35);
+    transform-origin: top center;
+    transition: transform .9s cubic-bezier(.6,0,.3,1);
+    z-index:3;
+  }
+  .envelope-wrap.open .env-flap{
+    transform: rotateX(180deg);
+  }
+  .seal{
+    position:absolute;
+    top:52%; left:50%;
+    transform:translate(-50%,-50%);
+    width:44px; height:44px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 55%, var(--gold-dim) 100%);
+    box-shadow: 0 3px 8px rgba(0,0,0,.5);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel', serif;
+    font-size:12px;
+    letter-spacing:.5px;
+    color:#2a2115;
+    z-index:4;
+    transition: opacity .3s ease .1s, transform .3s ease .1s;
+  }
+  .envelope-wrap.open .seal{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.4);
+  }
+  .env-flash{
+    position:absolute; inset:0;
+    background:transparent;
+    z-index:2;
+  }
+
+  .hint{
+    margin-top:22px;
+    font-family:'Cinzel', serif;
+    font-size:.78rem;
+    letter-spacing:3px;
+    color: var(--gold-dim);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:.5;}
+    50%{opacity:1;}
+  }
+
+  /* ---------- decorative corner ornaments ---------- */
+  .ornament{
+    position:absolute;
+    width:120px; height:120px;
+    opacity:.5;
+    z-index:1;
+    pointer-events:none;
+  }
+  .ornament.tl{ top:-18px; left:-18px; }
+  .ornament.br{ bottom:-18px; right:-18px; transform: rotate(180deg); }
+  .ornament svg{ width:100%; height:100%; }
+
+  /* ---------- main invite screen ---------- */
+  #invite-screen{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:50px 26px 60px;
+    text-align:center;
+    z-index:2;
+    opacity:0;
+    transform: translateY(14px);
+    transition: opacity .9s ease .1s, transform .9s ease .1s;
+  }
+  #invite-screen.visible{
+    opacity:1;
+    transform:none;
+  }
+
+  .top-line{
+    width:56px; height:1px;
+    background: var(--gold-dim);
+    margin-bottom:18px;
+  }
+  .eyebrow{
+    font-family:'Cinzel', serif;
+    font-size:.72rem;
+    letter-spacing:4px;
+    color: var(--gold-dim);
+    margin-bottom:14px;
+  }
+  .big-name{
+    font-family:'Alex Brush', cursive;
+    font-size:4rem;
+    color: var(--gold-light);
+    line-height:1;
+    text-shadow: 0 0 22px rgba(240,219,166,.22);
+  }
+  .age-caps{
+    font-family:'Cinzel', serif;
+    font-size:1.15rem;
+    letter-spacing:6px;
+    color: var(--gold);
+    margin-top:12px;
+  }
+
+  .tagline{
+    margin-top:26px;
+    font-size:1.15rem;
+    font-style:italic;
+    color: var(--cream);
+    opacity:.85;
+    max-width:340px;
+    line-height:1.5;
+  }
+
+  .date-block{
+    margin-top:34px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .date-side{
+    font-family:'Cinzel', serif;
+    font-size:.72rem;
+    letter-spacing:3px;
+    color: var(--gold);
+    border-top:1px solid var(--gold-dim);
+    border-bottom:1px solid var(--gold-dim);
+    padding:10px 8px;
+    line-height:1.6;
+  }
+  .date-center{
+    text-align:center;
+  }
+  .date-day{
+    font-family:'Cinzel', serif;
+    font-size:3rem;
+    color: var(--gold-light);
+    line-height:1;
+  }
+  .date-year{
+    font-family:'Cormorant Garamond', serif;
+    font-size:.85rem;
+    letter-spacing:2px;
+    color: var(--gold-dim);
+    margin-top:2px;
+  }
+
+  .countdown-label{
+    margin-top:40px;
+    font-family:'Cinzel', serif;
+    font-size:.72rem;
+    letter-spacing:4px;
+    color: var(--gold-dim);
+  }
+  .countdown{
+    margin-top:16px;
+    display:flex;
+    gap:18px;
+  }
+  .countdown .unit{
+    display:flex; flex-direction:column; align-items:center;
+    min-width:52px;
+  }
+  .countdown .num{
+    font-family:'Cinzel', serif;
+    font-size:2rem;
+    color: var(--gold-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown .lbl{
+    font-family:'Cinzel', serif;
+    font-size:.62rem;
+    letter-spacing:2px;
+    color: var(--gold-dim);
+    margin-top:4px;
+  }
+  .countdown .colon{
+    font-family:'Cinzel', serif;
+    font-size:2rem;
+    color: var(--gold-dim);
+    align-self:flex-start;
+    margin-top:2px;
+  }
+
+  .cta-label{
+    margin-top:46px;
+    font-family:'Cinzel', serif;
+    font-size:.75rem;
+    letter-spacing:2px;
+    color: var(--cream);
+    opacity:.75;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .buttons{
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    width:100%;
+    max-width:320px;
+  }
+  .btn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    justify-content:center;
+    padding:15px 18px;
+    border:1px solid var(--gold-dim);
+    border-radius:30px;
+    background: rgba(205,164,94,.04);
+    color: var(--gold-light);
+    font-family:'Cinzel', serif;
+    font-size:.82rem;
+    letter-spacing:2px;
+    text-decoration:none;
+    cursor:pointer;
+    transition: background .25s ease, border-color .25s ease, transform .15s ease;
+  }
+  .btn:hover, .btn:active{
+    background: rgba(205,164,94,.12);
+    border-color: var(--gold);
+    transform: translateY(-1px);
+  }
+  .btn svg{ width:18px; height:18px; flex-shrink:0; }
+
+  .closing{
+    margin-top:52px;
+    font-family:'Alex Brush', cursive;
+    font-size:1.7rem;
+    color: var(--gold);
+  }
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(3px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:50;
+    opacity:0;
+    visibility:hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+  }
+  .modal-overlay.active{
+    opacity:1;
+    visibility:visible;
+  }
+  .modal{
+    background: linear-gradient(165deg, #14100a, #0a0806);
+    border:1px solid var(--gold-dim);
+    border-radius:12px;
+    padding:32px 26px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+    position:relative;
+    transform: scale(.94);
+    transition: transform .3s ease;
+    max-height:85vh;
+    overflow-y:auto;
+  }
+  .modal-overlay.active .modal{ transform:scale(1); }
+  .modal h3{
+    font-family:'Cinzel', serif;
+    font-size:1.05rem;
+    letter-spacing:2px;
+    color: var(--gold-light);
+    margin-bottom:16px;
+  }
+  .modal p{
+    font-size:1.05rem;
+    line-height:1.65;
+    color: var(--cream);
+    opacity:.9;
+    margin-bottom:10px;
+  }
+  .modal-close{
+    position:absolute;
+    top:14px; right:16px;
+    background:none;
+    border:none;
+    color: var(--gold-dim);
+    font-size:1.3rem;
+    cursor:pointer;
+    line-height:1;
+  }
+  .modal-address{
+    font-family:'Cinzel', serif;
+    font-size:.8rem;
+    letter-spacing:1px;
+    color:var(--gold);
+    margin:18px 0;
+    line-height:1.8;
+  }
+  .modal-link{
+    display:inline-block;
+    margin-top:8px;
+    padding:12px 24px;
+    border:1px solid var(--gold);
+    border-radius:30px;
+    color: var(--gold-light);
+    text-decoration:none;
+    font-family:'Cinzel', serif;
+    font-size:.75rem;
+    letter-spacing:2px;
+  }
+
+  /* RSVP form */
+  .rsvp-row{
+    display:flex;
+    gap:10px;
+    margin:18px 0 8px;
+  }
+  .rsvp-btn{
+    flex:1;
+    padding:12px 8px;
+    border:1px solid var(--gold-dim);
+    border-radius:10px;
+    background:transparent;
+    color: var(--cream);
+    font-family:'Cinzel', serif;
+    font-size:.72rem;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition: all .2s ease;
+  }
+  .rsvp-btn.selected{
+    background: rgba(205,164,94,.15);
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+  .rsvp-input{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--gold-dim);
+    border-radius:10px;
+    background: rgba(255,255,255,.02);
+    color: var(--cream);
+    font-family:'Cormorant Garamond', serif;
+    font-size:1rem;
+    margin-bottom:12px;
+    outline:none;
+  }
+  .rsvp-input::placeholder{ color: rgba(243,234,210,.35); }
+  .rsvp-submit{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color: #0a0806;
+    font-family:'Cinzel', serif;
+    font-size:.8rem;
+    letter-spacing:2px;
+    cursor:pointer;
+    margin-top:6px;
+  }
+  .rsvp-done{
+    display:none;
+    color: var(--gold-light);
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.1rem;
+    padding:20px 0;
+  }
+
+  @media (max-width:380px){
+    .big-name{ font-size:3.2rem; }
+    .name-script{ font-size:2.6rem; }
+    .countdown{ gap:12px; }
+    .countdown .num{ font-size:1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="dust" id="dust"></div>
+
+  <!-- ENVELOPE SCREEN -->
+  <div id="envelope-screen">
+    <div class="ornament tl"><svg viewBox="0 0 120 120"><path d="M2,2 L2,60 M2,2 L60,2" stroke="#8a6d3a" stroke-width="1" fill="none"/><circle cx="2" cy="2" r="3" fill="#cda45e"/></svg></div>
+    <div class="ornament br"><svg viewBox="0 0 120 120"><path d="M2,2 L2,60 M2,2 L60,2" stroke="#8a6d3a" stroke-width="1" fill="none"/><circle cx="2" cy="2" r="3" fill="#cda45e"/></svg></div>
+
+    <div class="crest">MJ</div>
+    <div class="name-script">Mari</div>
+    <div class="subtitle-caps">20 ANOS</div>
+
+    <div class="envelope-wrap" id="envelopeWrap">
+      <div class="envelope">
+        <div class="env-body"></div>
+        <div class="env-flap"></div>
+        <div class="seal" id="seal">MJ</div>
+      </div>
+    </div>
+
+    <div class="hint">TOQUE NO ENVELOPE PARA ABRIR</div>
+  </div>
+
+  <!-- INVITE SCREEN -->
+  <div id="invite-screen">
+    <div class="top-line"></div>
+    <div class="eyebrow">VOCÊ ESTÁ CONVIDADO(A)</div>
+    <div class="big-name">Mari</div>
+    <div class="age-caps">20 ANOS</div>
+
+    <div class="tagline">"Venha comemorar comigo meus 20 anos"</div>
+
+    <div class="date-block">
+      <div class="date-side">SÁBADO</div>
+      <div class="date-center">
+        <div class="date-day">12</div>
+        <div class="date-year">SETEMBRO</div>
+      </div>
+      <div class="date-side">ÀS<br>20:00</div>
+    </div>
+
+    <div class="countdown-label">FALTAM APENAS</div>
+    <div class="countdown" id="countdown">
+      <div class="unit"><div class="num" id="cd-days">--</div><div class="lbl">DIAS</div></div>
+      <div class="colon">:</div>
+      <div class="unit"><div class="num" id="cd-hours">--</div><div class="lbl">HORAS</div></div>
+      <div class="colon">:</div>
+      <div class="unit"><div class="num" id="cd-min">--</div><div class="lbl">MIN</div></div>
+      <div class="colon">:</div>
+      <div class="unit"><div class="num" id="cd-sec">--</div><div class="lbl">SEG</div></div>
+    </div>
+
+    <div class="cta-label">CLIQUE NOS BOTÕES PARA INTERAGIR</div>
+    <div class="buttons">
+      <button class="btn" onclick="openModal('modal-local')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+        LOCAL DA FESTA
+      </button>
+      <button class="btn" onclick="openModal('modal-rsvp')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 6L9 17l-5-5"/></svg>
+        CONFIRMAR PRESENÇA
+      </button>
+      <button class="btn" onclick="openModal('modal-manual')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
+        MANUAL DO CONVIDADO
+      </button>
+    </div>
+
+    <div class="closing">Vai ser inesquecível</div>
+  </div>
+</div>
+
+<!-- MODAL: LOCAL -->
+<div class="modal-overlay" id="modal-local">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-local')">&times;</button>
+    <h3>LOCAL DA FESTA</h3>
+    <p>A festa será em:</p>
+    <div class="modal-address">Rua João Monlevade, 129<br>Jardim Leblon</div>
+    <a class="modal-link" href="https://www.google.com/maps/search/?api=1&query=Rua+Jo%C3%A3o+Monlevade%2C+129%2C+Jardim+Leblon" target="_blank" rel="noopener">ABRIR NO MAPS</a>
+  </div>
+</div>
+
+<!-- MODAL: RSVP -->
+<div class="modal-overlay" id="modal-rsvp">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-rsvp')">&times;</button>
+    <h3>CONFIRMAR PRESENÇA</h3>
+    <div id="rsvp-form">
+      <input class="rsvp-input" type="text" id="rsvp-name" placeholder="Seu nome">
+      <div class="rsvp-row">
+        <button class="rsvp-btn" id="rsvp-yes" onclick="selectRsvp('yes')">✓ VOU</button>
+        <button class="rsvp-btn" id="rsvp-no" onclick="selectRsvp('no')">✕ NÃO VOU</button>
+      </div>
+      <button class="rsvp-submit" onclick="submitRsvp()">CONFIRMAR</button>
+    </div>
+    <div class="rsvp-done" id="rsvp-done">Presença registrada. Obrigado por confirmar! 🥂</div>
+  </div>
+</div>
+
+<!-- MODAL: MANUAL -->
+<div class="modal-overlay" id="modal-manual">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-manual')">&times;</button>
+    <h3>MANUAL DO CONVIDADO</h3>
+    <p><strong style="color:#cda45e;">DRESS CODE:</strong> All black.</p>
+    <p><strong style="color:#cda45e;">OBSERVAÇÕES:</strong> Sem estampas na blusa ou na calça. Tênis ou sapato fica a critério de cada um.</p>
+  </div>
+</div>
+
+<script>
+  // gold dust particles
+  const dust = document.getElementById('dust');
+  for(let i=0;i<40;i++){
+    const s = document.createElement('span');
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.animationDelay = (Math.random()*3.5) + 's';
+    s.style.animationDuration = (2.5 + Math.random()*3) + 's';
+    dust.appendChild(s);
+  }
+
+  // envelope open
+  const envelopeWrap = document.getElementById('envelopeWrap');
+  const envelopeScreen = document.getElementById('envelope-screen');
+  const inviteScreen = document.getElementById('invite-screen');
+
+  envelopeWrap.addEventListener('click', () => {
+    if(envelopeWrap.classList.contains('open')) return;
+    envelopeWrap.classList.add('open');
+    setTimeout(() => {
+      envelopeScreen.classList.add('hidden');
+      inviteScreen.classList.add('visible');
+    }, 750);
+  });
+
+  // countdown
+  const target = new Date('2026-09-12T20:00:00');
+  function updateCountdown(){
+    const now = new Date();
+    let diff = target - now;
+    if(diff < 0) diff = 0;
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const mins = Math.floor((diff / (1000*60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+    document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-min').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-sec').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // modals
+  function openModal(id){
+    document.getElementById(id).classList.add('active');
+  }
+  function closeModal(id){
+    document.getElementById(id).classList.remove('active');
+  }
+  document.querySelectorAll('.modal-overlay').forEach(ov => {
+    ov.addEventListener('click', (e) => {
+      if(e.target === ov) ov.classList.remove('active');
+    });
+  });
+
+  // rsvp
+  let rsvpChoice = null;
+  function selectRsvp(choice){
+    rsvpChoice = choice;
+    document.getElementById('rsvp-yes').classList.toggle('selected', choice==='yes');
+    document.getElementById('rsvp-no').classList.toggle('selected', choice==='no');
+  }
+  function submitRsvp(){
+    const name = document.getElementById('rsvp-name').value.trim();
+    if(!name){ alert('Digite seu nome, por favor.'); return; }
+    if(!rsvpChoice){ alert('Selecione se você vai ou não.'); return; }
+    document.getElementById('rsvp-form').style.display = 'none';
+    document.getElementById('rsvp-done').style.display = 'block';
+
+    const statusText = rsvpChoice === 'yes' ? 'vou comparecer' : 'não vou conseguir comparecer';
+    const message = `Olá! Sou ${name} e estou confirmando presença na festa de 20 anos da Mari: ${statusText}.`;
+    const phone = '5531972458886';
+    const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    // Abre imediatamente, no mesmo clique do usuário (evita bloqueio de pop-up)
+    const win = window.open(waLink, '_blank');
+    if(!win){
+      // fallback caso o pop-up tenha sido bloqueado mesmo assim
+      window.location.href = waLink;
+    }
+  }
+</script>
+
+</body>
+</html>
