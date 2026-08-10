@@ -501,6 +501,56 @@
     padding:20px 0;
   }
 
+  /* ---------- music toggle ---------- */
+  .music-toggle{
+    position:fixed;
+    top:18px;
+    right:18px;
+    z-index:60;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 16px 9px 10px;
+    border-radius:30px;
+    border:1px solid var(--gold-dim);
+    background: rgba(10,8,6,.7);
+    backdrop-filter: blur(4px);
+    color: var(--gold-light);
+    font-family:'Cinzel', serif;
+    font-size:.65rem;
+    letter-spacing:1.5px;
+    cursor:pointer;
+    opacity:0;
+    visibility:hidden;
+    transform: translateY(-6px);
+    transition: opacity .5s ease, transform .5s ease, visibility .5s ease;
+  }
+  .music-toggle.show{
+    opacity:1;
+    visibility:visible;
+    transform:none;
+  }
+  .music-toggle .disc{
+    width:22px; height:22px;
+    border-radius:50%;
+    background: radial-gradient(circle at 40% 35%, var(--gold-light), var(--gold-dim) 70%);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    animation: spin 3.5s linear infinite;
+    animation-play-state: running;
+  }
+  .music-toggle.paused .disc{ animation-play-state: paused; }
+  .music-toggle .disc::after{
+    content:'';
+    width:6px; height:6px;
+    border-radius:50%;
+    background: #0a0806;
+  }
+  @keyframes spin{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+  }
+
   @media (max-width:380px){
     .big-name{ font-size:3.2rem; }
     .name-script{ font-size:2.6rem; }
@@ -510,6 +560,13 @@
 </style>
 </head>
 <body>
+
+<audio id="bgMusic" src="musica.mp3" loop preload="auto"></audio>
+
+<div class="music-toggle" id="musicToggle" onclick="toggleMusic()">
+  <div class="disc"></div>
+  <span id="musicLabel">TOCANDO</span>
+</div>
 
 <div class="stage" id="stage">
   <div class="dust" id="dust"></div>
@@ -645,7 +702,31 @@
       envelopeScreen.classList.add('hidden');
       inviteScreen.classList.add('visible');
     }, 750);
+
+    // inicia a música junto com o gesto de abrir o envelope
+    const music = document.getElementById('bgMusic');
+    music.volume = 0.85;
+    music.play().catch(() => {
+      // se o navegador ainda assim bloquear, o botão permite tocar manualmente
+    });
+    document.getElementById('musicToggle').classList.add('show');
   });
+
+  // controle de tocar/pausar
+  function toggleMusic(){
+    const music = document.getElementById('bgMusic');
+    const toggle = document.getElementById('musicToggle');
+    const label = document.getElementById('musicLabel');
+    if(music.paused){
+      music.play();
+      toggle.classList.remove('paused');
+      label.textContent = 'TOCANDO';
+    } else {
+      music.pause();
+      toggle.classList.add('paused');
+      label.textContent = 'PAUSADO';
+    }
+  }
 
   // countdown
   const target = new Date('2026-09-12T20:00:00');
