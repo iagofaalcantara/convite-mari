@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Mari — 20 Anos</title>
+<title>Mari - 20 Anos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
@@ -442,6 +442,50 @@
     letter-spacing:2px;
   }
 
+  /* gift list */
+  .gift-category{
+    text-align:left;
+    padding:14px 4px;
+    border-bottom:1px solid rgba(205,164,94,.18);
+  }
+  .gift-category:last-child{ border-bottom:none; }
+  .gift-title{
+    font-family:'Cinzel', serif;
+    font-size:.85rem;
+    letter-spacing:2px;
+    color: var(--gold-light);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .gift-size{
+    font-family:'Cormorant Garamond', serif;
+    font-size:.85rem;
+    letter-spacing:0;
+    color: var(--gold-dim);
+    font-style:italic;
+  }
+  .gift-list{
+    list-style:none;
+    margin-top:10px;
+    padding-left:4px;
+  }
+  .gift-list li{
+    font-size:1rem;
+    color: var(--cream);
+    opacity:.85;
+    padding:5px 0 5px 18px;
+    position:relative;
+  }
+  .gift-list li::before{
+    content:'';
+    position:absolute;
+    left:0; top:14px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background: var(--gold);
+  }
+
   /* RSVP form */
   .rsvp-row{
     display:flex;
@@ -627,6 +671,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 6L9 17l-5-5"/></svg>
         CONFIRMAR PRESENÇA
       </button>
+      <button class="btn" onclick="openModal('modal-presentes')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="8" width="16" height="12" rx="1"/><path d="M4 12h16M12 8v12M8 8c0-2 1.5-3.5 3-3.5S12 6 12 8M16 8c0-2-1.5-3.5-3-3.5S12 6 12 8"/></svg>
+        SUGESTÕES DE PRESENTES
+      </button>
       <button class="btn" onclick="openModal('modal-manual')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
         MANUAL DO CONVIDADO
@@ -662,6 +710,33 @@
       <button class="rsvp-submit" onclick="submitRsvp()">CONFIRMAR</button>
     </div>
     <div class="rsvp-done" id="rsvp-done">Presença registrada. Obrigado por confirmar! 🥂</div>
+  </div>
+</div>
+
+<!-- MODAL: PRESENTES -->
+<div class="modal-overlay" id="modal-presentes">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-presentes')">&times;</button>
+    <h3>SUGESTÕES DE PRESENTES</h3>
+    <div class="gift-category">
+      <div class="gift-title">CALÇADOS <span class="gift-size">Nº 39</span></div>
+      <ul class="gift-list">
+        <li>Sapatos</li>
+        <li>Plataformas</li>
+        <li>Saltos</li>
+        <li>Scarpin</li>
+        <li>Tamancos</li>
+      </ul>
+    </div>
+    <div class="gift-category">
+      <div class="gift-title">BOLSAS</div>
+    </div>
+    <div class="gift-category">
+      <div class="gift-title">MAQUIAGENS</div>
+    </div>
+    <div class="gift-category">
+      <div class="gift-title">ACESSÓRIOS</div>
+    </div>
   </div>
 </div>
 
